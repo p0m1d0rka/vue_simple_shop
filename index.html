@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Vue.js Pet Depot</title>
+<script src="https://unpkg.com/vue"></script>
+<!-- <link rel="stylesheet" type="text/css" href="assets/css/app.css"/> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1 v-text="sitename"></h1>
+        </header>
+        <main>
+            <div class="row">
+                <div class="col-xs-6">
+                    <figure>
+                        <img v-bind:src="product.imageGlobal">
+                    </figure>
+                </div>
+                <div class="col-xs-6 col-expand">
+                    <h1 v-text="product.title"></h1>
+                    <p v-text="product.description"></p>
+                    <p v-text="product.price"></p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body >
+<script>
+    var webstore = new Vue({
+    el: "#app",
+    data: {
+        sitename: "Vue.js shop project",
+        product: {
+            id: 1001,
+            title: "Cat food",
+            description: "Some food for cat with. Such <em>tasty</em>",
+            price: 1000,
+            image: "assets/images/product-fllsize.png",
+            imageGlobal: "https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+        }
+    }
+    });
+    console.log(webstore)
+</script>
+</html>
