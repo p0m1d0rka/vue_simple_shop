@@ -2,7 +2,7 @@
 <head>
 <title>Vue.js Pet Depot</title>
 <script src="https://unpkg.com/vue"></script>
-<!-- <link rel="stylesheet" type="text/css" href="assets/css/app.css"/> -->
+<link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
 </head>
 <body>
@@ -27,7 +27,7 @@
                 <div v-if="showProduct">
                     <div class="col-xs-6">
                             <figure>
-                                <img v-bind:src="product.imageGlobal">
+                                <img v-bind:src="product.image">
                             </figure>
                     </div>                    
                     <div class="col-xs-6 col-expand">
@@ -45,6 +45,27 @@
                             v-else
                         >Add to cart
                         </button>
+                        <span 
+                            class="inventory-message"
+                            v-if="product.availableInventory - cartItemCount == 0">
+                            All Out!
+                        </span>
+                        <span 
+                            class="inventory-message"
+                            v-else-if="product.availableInventory - cartItemCount < 5">
+                            Only {{ product.availableInventory - cartItemCount }} left!
+                        </span>
+                        <span 
+                            class="inventory-message"
+                            v-else>
+                            Buy Now!
+                        </span>
+                        <div class="rating">
+                            <span 
+                                v-for="n in 5"
+                                v-bind:class="{'rating-active': checkRating(n)}"
+                            >&#9734;</span>
+                        </div>
                     </div>
                 </div>
                 <div v-else>
@@ -165,8 +186,8 @@
             description: "Some food for cat with. Such <em>tasty</em>",
             price: 1000,
             image: "assets/images/product-fllsize.png",
-            imageGlobal: "https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-            availableInventory: 5
+            availableInventory: 10,
+            rating: 3
         },
         cart: [],
         showProduct: true,
@@ -201,6 +222,9 @@
         },
         submitForm() {
             alert('Submitted')
+        },
+        checkRating(n) {
+            return this.product.rating - n >=0
         }
     },
     computed: {
