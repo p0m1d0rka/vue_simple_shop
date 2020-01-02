@@ -4,6 +4,7 @@
 <script src="https://unpkg.com/vue"></script>
 <link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
 </head>
 <body>
     <div id="app">
@@ -180,12 +181,13 @@
     el: "#app",
     data: {
         sitename: "Vue.js shop project",
+        products: [],
         product: {
             id: 1001,
             title: "Cat food",
             description: "Some food for cat with. Such <em>tasty</em>",
             price: 1000,
-            image: "assets/images/product-fllsize.png",
+            image: "assets/images/product-fullsize.png",
             availableInventory: 10,
             rating: 3
         },
@@ -234,8 +236,16 @@
         canAddToCart: function(){
             return this.product.availableInventory > this.cartItemCount
         }
+    },
+    created: function(){
+        axios.get("./products.json")
+        .then((response) => {
+            this.products = response.data.products;
+            console.log(this.products)
+        })
     }
     });
+
     console.log(webstore)
 </script>
 </html>
