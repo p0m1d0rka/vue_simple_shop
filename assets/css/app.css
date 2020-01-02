@@ -43,8 +43,8 @@ body {
   max-height:300px;
   max-width:100%;
 }
-.figure {
-
+.product-min{
+  max-width: 100%;
 }
 
 .rating-active:before {

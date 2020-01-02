@@ -26,48 +26,53 @@
         <main>
             <div class="row product">
                 <div v-if="showProduct">
-                    <div class="col-xs-6">
-                            <figure>
-                                <img v-bind:src="product.image">
-                            </figure>
-                    </div>                    
-                    <div class="col-xs-6 col-expand">
-                        <h1 v-text="product.title"></h1>
-                        <p v-html="product.description"></p>
-                        <p v-text="product.price"></p>
-                        <button 
-                            class="btn btn-success"
-                            @click="addToCart"
-                            v-if="canAddToCart"
-                        >Add to cart
-                        </button>
-                        <button 
-                            class="btn disabled"
-                            v-else
-                        >Add to cart
-                        </button>
-                        <span 
-                            class="inventory-message"
-                            v-if="product.availableInventory - cartItemCount == 0">
-                            All Out!
-                        </span>
-                        <span 
-                            class="inventory-message"
-                            v-else-if="product.availableInventory - cartItemCount < 5">
-                            Only {{ product.availableInventory - cartItemCount }} left!
-                        </span>
-                        <span 
-                            class="inventory-message"
-                            v-else>
-                            Buy Now!
-                        </span>
-                        <div class="rating">
-                            <span 
-                                v-for="n in 5"
-                                v-bind:class="{'rating-active': checkRating(n)}"
-                            >&#9734;</span>
-                        </div>
+                    <div v-for="product in products">
+                            <div class="row product">
+                                <div class="col-md-5 col-md-offset-0">
+                                    <figure>
+                                        <img class="product-min" v-bind:src="product.image">
+                                    </figure>
+                                </div>                    
+                                <div class="col-md-5 col-expand">
+                                    <h1 v-text="product.title"></h1>
+                                    <p v-html="product.description"></p>
+                                    <p v-text="product.price"></p>
+                                    <button 
+                                        class="btn btn-success"
+                                        @click="addToCart(product)"
+                                        v-if="canAddToCart(product)"
+                                    >Add to cart
+                                    </button>
+                                    <button 
+                                        class="btn disabled"
+                                        v-else
+                                    >Add to cart
+                                    </button>
+                                    <span 
+                                        class="inventory-message"
+                                        v-if="product.availableInventory - cartCount(product.id) == 0">
+                                        All Out!
+                                    </span>
+                                    <span 
+                                        class="inventory-message"
+                                        v-else-if="product.availableInventory - cartCount(product.id) < 5">
+                                        Only {{ product.availableInventory - cartCount(product.id) }} left!
+                                    </span>
+                                    <span 
+                                        class="inventory-message"
+                                        v-else>
+                                        Buy Now!
+                                    </span>
+                                    <div class="rating">
+                                        <span 
+                                            v-for="n in 5"
+                                            v-bind:class="{'rating-active': checkRating(n, product)}"
+                                        >&#9734;</span>
+                                    </div>
+                                </div>   
+                            </div>
                     </div>
+
                 </div>
                 <div v-else>
                     <div class="col-md-6">
@@ -182,15 +187,6 @@
     data: {
         sitename: "Vue.js shop project",
         products: [],
-        product: {
-            id: 1001,
-            title: "Cat food",
-            description: "Some food for cat with. Such <em>tasty</em>",
-            price: 1000,
-            image: "assets/images/product-fullsize.png",
-            availableInventory: 10,
-            rating: 3
-        },
         cart: [],
         showProduct: true,
         states: {
@@ -215,9 +211,9 @@
         }
     },
     methods: {
-        addToCart: function(){
-            console.log(`Call add to cart for ${this.product.id}`)
-            this.cart.push( this.product.id )
+        addToCart: function(product){
+            console.log(`Call add to cart for ${product.id}`)
+            this.cart.push( product.id )
         },
         showCheckout() {
             this.showProduct = !this.showProduct
@@ -225,17 +221,26 @@
         submitForm() {
             alert('Submitted')
         },
-        checkRating(n) {
-            return this.product.rating - n >=0
+        checkRating(n, product) {
+            return product.rating - n >=0
+        },
+        canAddToCart(product) {
+            return product.availableInventory > this.cartCount(product.id)
+        },
+        cartCount(productId) {
+            let count=0;
+            for(var i=0; i< this.cart.length; i++) {
+                if(this.cart[i] === productId){
+                    count++
+                }
+            }
+            return count
         }
     },
     computed: {
         cartItemCount: function(){
             return this.cart.length || 0
         },
-        canAddToCart: function(){
-            return this.product.availableInventory > this.cartItemCount
-        }
     },
     created: function(){
         axios.get("./products.json")
