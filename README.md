@@ -1,6 +1,7 @@
 # petshop
 
-> A Vue.js project
+> A Vue.js education project.
+Building petshop with vue-cli
 
 ## Build Setup
 
