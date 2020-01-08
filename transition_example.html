@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 3.0s;
+        }
+
+        .fade-enter, .fade-leave-to {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div @click="show = !show">
+            <h2>{{title}}</h2>
+        </div>
+        <transition name="fade">
+            <div v-if="show">
+                <h1>{{description}}</h1>
+            </div>
+        </transition>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    title: "War and Peace",
+                    description: "blablaasdasd asd asd asd a ",
+                    show: false
+                }
+            }
+        })
+    </script>
+</body>
+</html>
