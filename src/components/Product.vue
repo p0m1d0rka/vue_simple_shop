@@ -16,6 +16,8 @@
         </p>
       </div>
     </div>
+    <button @click="edit">Edit Product</button>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -26,6 +28,11 @@ export default {
   data() {
     return {
       product: ''
+    }
+  },
+  methods: {
+    edit() {
+      this.$router.push({name: 'Edit'})
     }
   },
   created: function() {
