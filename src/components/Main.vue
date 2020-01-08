@@ -29,21 +29,25 @@
                 v-else
               >Add to cart
             </button>
-            <span 
-                class="inventory-message"
-                v-if="product.availableInventory - cartCount(product.id) == 0">
-                All Out!
-            </span>
-            <span 
-                class="inventory-message"
-                v-else-if="product.availableInventory - cartCount(product.id) < 5">
-                Only {{ product.availableInventory - cartCount(product.id) }} left!
-            </span>
-            <span 
-                class="inventory-message"
-                v-else>
-                Buy Now!
-            </span>
+            <transition name="bounce" mode="out-in">
+              <span 
+                  class="inventory-message"
+                  v-if="product.availableInventory - cartCount(product.id) == 0"
+                  key = "0">
+                  All Out!
+              </span>
+              <span 
+                  class="inventory-message"
+                  v-else-if="product.availableInventory - cartCount(product.id) < 5"
+                  key="">
+                  Only {{ product.availableInventory - cartCount(product.id) }} left!
+              </span>
+              <span 
+                  class="inventory-message"
+                  v-else>
+                  Buy Now!
+              </span>
+            </transition>
             <div class="rating">
                 <span 
                     v-for="n in 5"
@@ -125,3 +129,28 @@ export default {
   },  
 }
 </script>
+
+<style scoped>
+  .bounce-enter-active {
+    animation: shake 0.72s cubic-bezier(.37,.07,.19,.97) both;
+    transform:  translate3d(0,0,0);
+    backface-visibility: hidden;
+  }
+
+  @keyframes shake {
+    10%, 90% {
+      color: red;
+      transform: translate3d(-1px, 0, 0);
+    }
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+    30%, 50%, 70% {
+      color: red;
+      transform: translate3d(-4px, 0, 0);
+    }
+    40%, 60% {
+      transform: translate3d(4px, 0, 0)
+    }
+  }
+</style>
