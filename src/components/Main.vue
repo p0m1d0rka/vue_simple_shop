@@ -10,7 +10,12 @@
             </figure>
           </div>                    
           <div class="col-md-5 col-expand">
-            <h1 v-text="product.title"></h1>
+            <router-link
+              tag="h1"
+              :to="{name: 'Id', params: {id: product.id}}">
+              {{product.title}}
+            </router-link>
+
             <p v-html="product.description"></p>
             <p class="price">{{ product.price }}</p>
             <button 

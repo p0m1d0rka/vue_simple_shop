@@ -8,14 +8,16 @@
           </h1>
       </div>
       <div class="nav navbar-nav cart navbar-right">
-          <button class="btn btn-default btn-lg"
-              @click="showCheckout"
-          >
+        <router-link
+          active-class="active"
+          tag="button"
+          class="btn btn-default btn-lg"
+          :to="{name: 'Form'}">
           <span
               class="glyphicon glyphicon-shopping-cart"
           >{{ cartItemCount }}</span>
           Checkout
-          </button>
+        </router-link>
       </div>
   </header>
 </template>
@@ -41,5 +43,8 @@ export default {
 a {
   text-decoration: none;
   color: black;
+}
+.router-link-exact-active {
+  color: blue;
 }
 </style>
