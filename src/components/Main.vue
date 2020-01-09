@@ -68,7 +68,6 @@ export default {
   name: "imain",
   data() {
     return {
-      products: {},
       cart: []
     }
   },
@@ -99,11 +98,7 @@ export default {
   },
   filters: {},
   created: function() {
-    axios.get("/static/products.json")
-    .then(response => {
-      this.products = response.data.products
-      console.log(this.products)
-    })
+    this.$store.dispatch("initStore")
   },
   computed: {
     cartItemCount: function(){
@@ -125,6 +120,9 @@ export default {
         return productsArray.sort(compare)
       }
       return this.products
+    },
+    products(){
+      return this.$store.getters.products
     }
   },  
 }
